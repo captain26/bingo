@@ -1,0 +1,256 @@
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  background: #1d093a;
+}
+
+.nextnumber {
+  color: antiquewhite;
+  background-color: #141e30;
+  text-align: center;
+  border-radius: 10px;
+  width: max-content;
+  padding: 5px 10px;
+  margin: 5px auto;
+}
+
+.fadeb {
+  opacity: 0.3;
+}
+
+.loader {
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+}
+
+.ticket {
+  background: orange;
+  border-radius: 10px;
+  border: 1px solid #141e30;
+  border-collapse: separate;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  margin: 10px auto;
+  width: 90%;
+  padding: 20px;
+}
+.ticket td {
+  width: 10%;
+  height: 40px;
+  /* min-width: 60px; */
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  color: #141e30;
+  background-color: #ffffff;
+  margin: 20px;
+}
+.shownNumber {
+  width: 93%;
+  margin: 0 auto;
+  border: none;
+  background-color: orange;
+  border-radius: 13px;
+  padding: 8px 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .shownNumber span {
+    width: 30px !important;
+    margin: 0.6% !important;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .shownNumber span {
+    width: 3% !important;
+    margin: 0.5% !important;
+  }
+}
+
+.shownNumber span {
+  width: 30px;
+  display: inline-block;
+  height: 30px;
+  margin: 1.2%;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 150px;
+  background: white;
+  color: black;
+  padding-top: 2px;
+}
+
+.clicked-cell {
+  background: #593c3c5c !important;
+}
+/*   .wrong-clicked-cell {
+    background: #f91111c9!important;
+    pointer-events: none!important;
+  } */
+.not-clickable {
+  pointer-events: none;
+}
+.play p {
+  font-size: 25px;
+  text-align: center;
+  margin: 10px 5px;
+}
+
+#claim-ticket {
+  border-radius: 20px;
+  color: #ffffff;
+  background-color: #0f3883;
+  border: none;
+  margin: 6px 3px;
+  padding: 5px 10px;
+}
+#claim-ticket:hover:enabled {
+  color: #0f3883;
+  background-color: #ffffff;
+}
+#claim-ticket::after {
+  color: #141e30;
+  background-color: orange;
+}
+
+/*Ludo king colors :#021a42
+  #fefb09 yellow
+  #21409a blue
+  */
+
+.loader,
+.play,
+.wait,
+.game-ended,
+.claim-btn,
+#my-canvas {
+  display: none;
+}
+
+/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+} */
+
+.mobile-device {
+  display: none;
+  cursor: pointer;
+  width: 35px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 500px) {
+  .mobile-device {
+    display: block !important;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .play,
+  .wait,
+  .game-ended {
+    margin-top: 0 !important;
+  }
+  .play h1 {
+    margin-top: 0 !important;
+  }
+}
+
+section {
+  color: white;
+  font-family: helvetica;
+  text-transform: uppercase;
+}
+section div {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  min-width: 100%;
+}
+section div .news-message {
+  display: inherit;
+  flex-shrink: 0;
+  height: 50px;
+  align-items: center;
+  animation: slide-left 40s linear infinite;
+}
+section div .news-message p {
+  font-size: 25px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  padding-left: 0;
+}
+@keyframes slide-left {
+  from {
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 50% auto; /* 15% from the top and centered */
+  padding: 20px 30px;
+  border: none;
+  width: 75%; /* Could be more or less, depending on screen size */
+  border-radius: 20px;
+}
+
+/* The Close Button */
+.closem {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bolder;
+  width: max-content;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.closem:hover,
+.closem:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

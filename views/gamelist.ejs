@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bingo</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        background-color: orange;
+        color: #ffffff;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+
+
+
+    <h1
+      class="mygamesHeader"
+      style="
+        font-family: 'Montserrat', san-serif;
+        font-weight: bold;
+        font-size: 4.5rem;
+        text-align: center;
+        color: #1d093a;
+        margin: 32px 0 0;
+        padding: 0 30px;
+        text-decoration: underline;
+      "
+    >
+      My Games
+    </h1>
+    <div class="list-box-container">
+      <!-- <h2>Past Winner</h2> -->
+      <!-- <div class="list-box">
+        <button class="btn">Game list</button>
+      </div> -->
+      <!-- <h2>Past Winner</h2> -->
+      <div class="list-box">
+        <h2 style="text-align: center;">Upcoming Game</h2>
+        <p><%= nextGameOnline.game.game_time.substr(0,20) %></p>
+        <!-- <% if(!nextGameOnline.payment){ %>
+        <a href="/payment/<%= user_id %>/<%= nextGameOnline.game._id %>" class="btn">Pay</a>
+        <% }else{ %>
+          <a href="/game-start/<%= user_id %>/<%= nextGameOnline.game._id %>" class="btn">Start Game</a>
+        <% } %> -->
+        <a href="/game-start/<%= user_id %>/<%= nextGameOnline.game._id %>" class="btn">Start Game</a>
+      </div>
+
+      <!-- <h2>Past Winner</h2> -->
+      <div class="list-box">
+        <h2 style="text-align: center;">Prizes</h2>
+        <ul>
+          <li>₹ 500 for full house.</li>
+          <li>
+            ₹ 200 for top row, middle row, bottom row.
+          </li>
+          <li>₹ 100 for first five.</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+  <script>
+
+  </script>
+</html>

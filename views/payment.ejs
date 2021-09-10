@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script src="/js/jquery.js"></script>
+        <script src="/js/popper.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <script src="/js/bootstrap.js"></script>
+    <title>Payment Screen</title>
+  </head>
+  <body>
+    <style>
+      body {
+        background-color: orange;
+
+        height: 100%;
+      }
+      .pay{
+        display: none;
+      }
+      /*.btn {
+        color: #ffffff;
+        background-color: #1d093a;
+        border: none;
+        padding: 10px;
+        border-radius: 20px;
+      }
+      .container {
+        justify-content: center;
+        padding: 300px;
+      }
+
+      .payment {
+        display: flex;
+        flex-direction: column;
+      } */
+  
+  .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  #myBtn{
+    padding: 10px;
+    color: #ffffff;
+    background-color: #1d093a;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    margin: 30px auto;
+  }
+  .qr-code{
+   align-self: center;
+   width: 250px;
+  }
+  @media screen and (min-width: 200px) and (max-width: 600px) {
+    .qr-code {
+    align-self: center;
+    width: 50%;
+    height: 50%;
+  }
+  .paymentHeader{
+    font-size: 2em!important;
+  }
+}
+  .loader{
+    display: none;
+  }
+  .fadeC{
+    opacity: 0.2;
+  }
+    </style>
+
+<div class="loader">
+  <div class="spinner-border" style="color: #03e9f4;" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+        <div class="toast"
+        role="alert"
+        style="margin: auto; position: relative; z-index: 1;"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-delay="3000">
+          <div class="toast-header">
+            <strong class="mr-auto toast-message"></strong>
+            <button
+              type="button"
+              class="ml-2 mb-1 close"
+              data-dismiss="toast"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+  <div class="container">
+      <h1
+      class="paymentHeader"
+      style="
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3em;
+        color: #ffff;
+        margin: 40px auto;
+        text-decoration: underline;
+      "
+    >
+      Payment Screen  
+    </h1>
+    <!-- Trigger/Open The Modal -->
+
+    <img src="/img/paytmqr.jpg" class="qr-code notpay" >
+
+    <p class="notpay" style="color: black; text-align: center;margin-top: 35px;">
+      This is just a test run so, payment is in testing mode. No money will be deducted from your account.
+    </p>
+    <p class ="pay" style="color: black; text-align: center;margin-top: 35px;">
+      You have paid for the current game. Please go back to the main menu.
+    </p>
+    <button type="submit"  onclick="payment('<%= game_id%>','<%= uid %>')" id="myBtn"class="notpay">Pay Now</button>
+    <button type="submit" onclick="backHome()" id="myBtn"class="pay">Back</button>
+  
+    
+    
+
+    
+  </div>
+
+</body>
+<script src="/js/firebase-app.js"></script>
+<script src="/js/firebase-auth.js"></script>
+<script>
+var user = null;
+var game_id = null;
+var firebaseConfig = {
+    apiKey: "AIzaSyBMtJWyBxZ4kVlqbAAHCFuBspdxbRW0dOM",
+    authDomain: "bingo-35ce9.firebaseapp.com",
+    databaseURL: "https://bingo-35ce9.firebaseio.com",
+    projectId: "bingo-35ce9",
+    storageBucket: "bingo-35ce9.appspot.com",
+    messagingSenderId: "564607526074",
+    appId: "1:564607526074:web:8753262a2aac9036ad8e83",
+    measurementId: "G-YDYDGBBZ9L"
+  };
+  // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+
+ firebase.auth().onAuthStateChanged(function(userDetail) {
+    if (userDetail) {
+        user = userDetail;
+    }
+    else{
+      window.location = "/";
+    }
+ });
+
+
+var options = {
+    "key": "rzp_test_GJIdqc6kreFo02", // Enter the Key ID generated from the Dashboard
+    "amount": "2500", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Bingo Words",
+    "description": "Game Transaction",
+    "image": "https://i.ibb.co/25C8LhK/payment.jpg",
+    "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": "paymentHandler",
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "orange"
+    }
+};
+
+
+
+function payment(gameid, user_id){
+  $('.loader').show();
+  $('.container').addClass('fadeC')
+  game_id = gameid;
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", '/payment-order-create', true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          var json = JSON.parse(xhr.responseText);
+          $('.loader').hide();
+          $('.container').removeClass('fadeC');
+          console.log((json));
+          if(json.status == 0){
+            $('.toast-message').text(json.message)
+            $('.toast').toast('show');
+          }
+          else{
+            options.amount = json.message.amount;
+            options.order_id = json.message.id;
+            options.handler = paymentHandler;
+            options.prefill.name = user.displayName;
+            options.prefill.contact = user.phoneNumber;
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+          }
+      }
+  };
+  var data = JSON.stringify({user_id : user.uid, game_id : game_id});
+  xhr.send(data);
+}
+
+function paymentHandler(response){
+  $('.loader').show();
+  $('.container').addClass('fadeC')
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", '/payment-confirmation', true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          var json = JSON.parse(xhr.responseText);
+          $('.loader').hide();
+          $('.container').removeClass('fadeC')
+          $('.toast-message').text(json.message)
+          $('.toast').toast('show');
+          if(json.status == 1){
+            $('.notpay').hide();
+            $('.pay').show();
+          }
+      }
+  };
+  var data = JSON.stringify({response, user_id : user.uid, game_id : game_id});
+  xhr.send(data);
+}
+
+function backHome() {
+  window.location = "/mygame-list/" + user.uid;
+}
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+  </body>
+</html>

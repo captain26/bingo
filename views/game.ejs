@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bingo</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/popper.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <script src="/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/game.css" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168783496-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-168783496-1');
+    </script>
+
+  </head>
+  <body>
+    <audio loop id="myAudio" >
+      <source src="/background.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio> 
+     <div class="loader">
+      <div class="spinner-border" style="color: #03e9f4;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="toast"
+    role="alert"
+    style="margin: auto; position: fixed; z-index: 1;left: 50%;transform: translate(-50%, 0);top: 10px;"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-delay="4000">
+      <div class="toast-header">
+        <strong class="mr-auto toast-message"></strong>
+        <button
+          type="button"
+          class="ml-2 mb-1 close"
+          data-dismiss="toast"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="closem">&times;</span>
+        <p style="text-align: center;">Switch to landscape mode, for smooth functioning of game. Ticket would not be displayed on portrait mode.</p>
+        <button class="btn btn-info" onclick="rotate(this)">Switch</button>
+      </div>
+    </div>
+
+    <div class="game-ended jumbotron jumbotron-fluid" style="margin-top: 50px;">
+      <div class="container">
+        <h1 class="display-4">OOP's!!!</h1>
+        <p class="lead">Today's game has ended. Come back tommorow.</p>
+      </div>
+    </div>
+
+    <div class="wait jumbotron jumbotron-fluid" style="margin-top: 50px;">
+      <div class="container">
+        <h1 class="display-4">Waiting!!!</h1>
+        <p class="lead">
+          Please wait as there is still some time for the game to begin.
+        </p>
+        <p id="timer"></p>
+        <p>Game will automatically start.</p>
+      </div>
+    </div>
+
+    <div class="play" style="margin-top: 50px;">
+      <!-- <div class="nextnumber">
+        <p></p>
+      </div> -->
+     <!--  <marquee style="color: white;" behavior="scroll" width=“210” direction="left">wejfw fjawfwadw dw wfdw qdj wqd qdj wfefjarlfaejalej eaafjwa lfeajfeal jerk eelkr gegkeelgr r  fwwfw fwfl;wfw fwf kfj wfkwje lfjwef wfjwk wklfj waeflkwj kewfjklfjawfjwflw ffkjwlkf welkf we</marquee>
+       -->
+      <section>
+        <h3 style="margin: 40px auto 5px;
+        font-size: 28px;
+        text-align: center;
+        text-decoration: underline;
+        color: orange;">Last 12 Words : </h3>
+        <div style="overflow: hidden;">
+          <section class="news-message" style="overflow: hidden;">
+            
+          </section>
+        </div>
+      </section>
+      
+      <!-- <div class="marquee">
+        Disclosed Words :
+      </div> -->
+
+      <h1 class="nextnumber" style="color: white;"></h1>
+      <p class="timer" style="color: white;margin: 0;"></p>
+
+      <!-- <div class="shownNumber"></div> -->
+
+      <table class="ticket">
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="container claim-btn" style="margin: 15px auto; text-align: center;">
+        <button
+          class="btn-sm btn btn-outline-secondary claim full-house"
+          id="claim-ticket"
+        >
+          Full House
+        </button>
+        <button
+          class="btn-sm btn btn-outline-secondary claim top-row"
+          id="claim-ticket"
+        >
+          Top Row
+        </button>
+        <button
+          class="btn-sm btn btn-outline-secondary claim middle-row"
+          id="claim-ticket"
+        >
+          Middle Row
+        </button>
+        <button
+          class="btn-sm btn btn-outline-secondary claim bottom-row"
+          id="claim-ticket"
+        >
+          Bottom Row
+        </button>
+        <button
+          class="btn-sm btn btn-outline-secondary claim first-five"
+          id="claim-ticket"
+        >
+          First Five
+        </button>
+      </div>
+
+      
+
+      <img src="/img/exapnd.png" class="mobile-device" onclick="rotate(this)" alt="">
+
+      <!-- <button onclick="setStorage()">Set storage</button>
+              <button onclick="getStorage()">get storage</button> -->
+    </div>
+  </body>
+
+  <script src="/js/firebase-app.js"></script>
+  <script src="/js/firebase-auth.js"></script>
+  <script src="/js/socket.js"></script>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#764ABC" />
+    <title>Bingo</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168783496-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-168783496-1');
+    </script>
+    <script src="js/jquery.js"></script>
+    <script src="js/popper.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="sponsor/pater.css" />
+    <link rel="stylesheet" type="text/css" href="css/accrodian.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script>
+      document.documentElement.className = "js";
+      var supportsCssVars = function () {
+        var s = document.createElement("style"),
+          support;
+
+        s.innerHTML = "root: { --tmp-var: bold; }";
+        document.head.appendChild(s);
+        support = !!(
+          window.CSS &&
+          window.CSS.supports &&
+          window.CSS.supports("font-weight", "var(--tmp-var)")
+        );
+        s.parentNode.removeChild(s);
+        return support;
+      };
+      if (!supportsCssVars())
+        alert(
+          "Please view this demo in a modern browser that supports CSS Variables."
+        );
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    
+
+  </head>
+  <body class="demo-1 loading">
+    <!-- Loading Icon -->
+    <div class="loader">
+      <div class="spinner-border" style="color: #03e9f4;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="otpModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="login-box otp">
+            <h2>Verify OTP</h2>
+            <div class="user-box">
+              <input type="text" name="code" id="code" required />
+              <label>OTP</label>
+            </div>
+
+            <button onClick="submitCode()">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Verify OTP
+            </button>
+
+            <button type="button" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div
+        class="toast"
+        role="alert"
+        style="margin: auto; position: relative; z-index: 1;"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-delay="8000">
+        <div class="toast-header">
+          <strong class="mr-auto toast-message"></strong>
+          <button
+            type="button"
+            class="ml-2 mb-1 close"
+            data-dismiss="toast"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="login container">
+        <div class="login-box login-dialog">
+          <h2>Login</h2>
+          <div class="user-box">
+            <input name="username" id="username" type="text" required />
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="text" name="phone" id="phone" required />
+            <label>Mobile Number (10 digits)</label>
+          </div>
+          <button onClick="submitPhone()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Send OTP
+          </button>
+        </div>
+        <div id="recaptcha-container"></div>
+      </div>
+
+      <div class="homepage">
+        <svg class="hidden">
+          <symbol id="icon-arrow" viewBox="0 0 24 24">
+            <title>arrow</title>
+            <polygon
+              points="6.3,12.8 20.9,12.8 20.9,11.2 6.3,11.2 10.2,7.2 9,6 3.1,12 9,18 10.2,16.8 "
+            />
+          </symbol>
+          <symbol id="icon-drop" viewBox="0 0 24 24">
+            <title>drop</title>
+            <path
+              d="M12,21c-3.6,0-6.6-3-6.6-6.6C5.4,11,10.8,4,11.4,3.2C11.6,3.1,11.8,3,12,3s0.4,0.1,0.6,0.3c0.6,0.8,6.1,7.8,6.1,11.2C18.6,18.1,15.6,21,12,21zM12,4.8c-1.8,2.4-5.2,7.4-5.2,9.6c0,2.9,2.3,5.2,5.2,5.2s5.2-2.3,5.2-5.2C17.2,12.2,13.8,7.3,12,4.8z"
+            />
+            <path
+              d="M12,18.2c-0.4,0-0.7-0.3-0.7-0.7s0.3-0.7,0.7-0.7c1.3,0,2.4-1.1,2.4-2.4c0-0.4,0.3-0.7,0.7-0.7c0.4,0,0.7,0.3,0.7,0.7C15.8,16.5,14.1,18.2,12,18.2z"
+            />
+          </symbol>
+          <symbol id="shape-demo" viewBox="0 0 200 100">
+            <title>shape demo</title>
+            <path
+              d="M 6.144,74.1 C 20.4,107.4 70.13,94.33 94.22,95.74 121.3,97.41 130.8,101.1 154.7,99.38 178.6,97.72 201.9,78.95 199.4,46.86 197.1,14.96 174.9,4.781 161.4,1.827 147.9,-1.128 119.8,8.284 105.6,8.766 85.34,9.449 81.91,7.628 51.08,2.334 17.26,-3.482 -8.105,40.84 6.144,74.1 Z"
+            />
+          </symbol>
+        </svg>
+        <main>
+          <div class="morph-wrap">
+            <svg class="morph" width="1400" height="770" viewBox="0 0 1400 770">
+              <path
+                d="M 262.9,252.2 C 210.1,338.2 212.6,487.6 288.8,553.9 372.2,626.5 511.2,517.8 620.3,536.3 750.6,558.4 860.3,723 987.3,686.5 1089,657.3 1168,534.7 1173,429.2 1178,313.7 1096,189.1 995.1,130.7 852.1,47.07 658.8,78.95 498.1,119.2 410.7,141.1 322.6,154.8 262.9,252.2 Z"
+              />
+            </svg>
+          </div>
+          <div class="content content--fixed">
+            <header class="codrops-header">
+              <div class="codrops-links">
+                <svg
+                  class="decoshape"
+                  viewBox="0 0 200 100"
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M 10.45,74.41 C 39.4,110.8 72.59,67.27 95.98,68.68 122.3,70.35 131.5,101.4 154.7,99.69 177.9,98.03 200.5,79.26 198.1,47.17 195.9,15.27 174.6,-0.3279 151.8,0.9941 128.6,2.581 126,16.86 107,22.76 88.26,28.67 88.87,12.36 60.37,1.787 31.79,-8.877 -18.61,37.92 10.45,74.41 Z"
+                  />
+                </svg>
+                <a
+                  class="codrops-icon codrops-icon--drop"
+                  onClick="signOut()"
+                  href="#"
+                  style="font-size: 14px; color: white;"
+                  title="Log Out"
+                >
+                  <span>Logout</span>
+                  <svg class="icon icon--drop" style="display: inline-block;">
+                    <use xlink:href="#icon-drop"></use></svg></a>
+              </div>
+              <h1 class="codrops-header__title">BingoWords</h1>
+            </header>
+
+            <a class="pater" onclick="gamelist()">
+              <svg
+                class="pater__deco"
+                width="300"
+                height="240"
+                viewBox="0 0 1000 800"
+              >
+                <path
+                  d="M27.4,171.8C73,42.9,128.6,1,128.6,1s0,0,0,0c58.5,0,368.3,0.3,873.2,0.8c38.5,211,42.1,373.5,38.9,476.7c-2.5,80.3-10.6,174.9-76.7,247.8c-15.1,16.6-37.4,41.2-72.8,53.9c-92.4,33.1-173-50.8-283.9-99.4c-224.3-98.4-334.9,51.4-472.2-45.6C-6.3,535.2-14.5,290.6,27.4,171.8z"
+                />
+              </svg>
+              <h4 class="pater__title">My Games</h4>
+              <p class="pater__desc">
+                Discsover the upcoming games and participatein it.
+              </p>
+            </a>
+          </div>
+          <div class="content-wrap" style="top: -40px;">
+            <div class="content content--layout content--layout-1" style="top: -25px;">
+              <h1 class="ml8">
+                <span class="letters-container">
+                  <span class="letters letters-left">Bingo</span>
+                  <span class="letters bang">!</span>
+                </span>
+                <span class="circle circle-white"></span>
+                <span class="circle circle-dark"></span>
+                <span class="circle circle-container"><span class="circle circle-dark-dashed"></span></span>
+              </h1>
+              <h1 class="ml1">
+                <span class="text-wrapper">
+                  <span class="line line1"></span>
+                  <span class="letters">Play &amp; win cash prizes daily.</span>
+                  <span class="line line2"></span>
+                </span>
+              </h1>
+              <div
+                class="treat-wrapper"
+                style="
+                  position: absolute;
+                  top: 550px;
+                  width: 100%;
+                  text-align: center;
+                "
+              >
+                <button onclick="gamelist()" class="treat-button">Play!</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="game">
+            <% if(game_time){ %>
+              <% if(game_started){ %>
+                <h1>Today's Game Started</h1>
+              <% }else{ %>
+                <h1>Next Game to start in:</h1>
+                <div id="timer">
+                  <div id="days"></div>
+                  <div id="hours"></div>
+                  <div id="minutes"></div>
+                  <div id="seconds"></div>
+                </div>
+              <% } %>
+            <% }else{ %>
+            <h1>No next game scheduled</h1>
+            <% } %>
+          </div>
+
+          <div class="content-wrap">
+            <div class="aboutus" style="text-align: center;">
+              <!-- <img class="content__img" src="img/4.jpg" alt="Some image" /> -->
+              <h3 class="content__title">About Us</h3>
+              <p
+                class="content__desc"
+                style="
+                  text-align: right;
+                  padding: 0 10%;
+                  font-size: 20px;
+                  line-height: 30px;
+                "
+              >
+              Tambola  is a popular game that is believed to have originated in Italy in the early 1500s. The game is fun to play and easy to learn.  A typical 90 ball Tambola ticket consists of 3 rows and 9 columns which make 27 spaces. Each row has a total of 5 words printed on it. A column can have 1, 2 or the maximum 3 words printed on it. The game begins with a ball draw. As the game progresses, the board is marked with each ball that is drawn. The objective of the game is to mark all the words found in the ticket as called by the computer. The game ends when all words are drawn, or when a winner is declared for all the patterns of the game, whichever comes first.
+              </p>
+            </div>
+          </div>
+          <div
+            class="accordianroot"
+            style="height: max-content; margin: 112px auto;"
+          >
+            <main>
+              <h3
+                class="content__title"
+                style="text-align: center; text-transform: none;"
+              >
+                FAQ's
+              </h3>
+              <div class="accordion">
+                <div class="expansion-panel">
+                  <button class="expansion-panel-header">
+                    <div class="expansion-panel-header-content">
+                      <span class="expansion-panel-title">How many tickets do I get?</span>
+                      <!-- <div class="expansion-panel-description">
+                        A complete guide.
+                      </div> -->
+                      <div class="expansion-panel-indicator"></div>
+                    </div>
+                  </button>
+                  <div class="expansion-panel-body">
+                    <div class="expansion-panel-body-content">
+                      Each player gets one ticket in a game.
+                    </div>
+                  </div>
+                </div>
+                <div class="expansion-panel">
+                  <button class="expansion-panel-header">
+                    <div class="expansion-panel-header-content">
+                      <span class="expansion-panel-title">What are the winning patterns?
+                      </span>
+                      <!-- <div class="expansion-panel-description">
+                        What
+                      </div> -->
+                      <div class="expansion-panel-indicator"></div>
+                    </div>
+                  </button>
+                  <div class="expansion-panel-body">
+                    <div class="expansion-panel-body-content">
+                      <ul>
+                        <li>Early Five : The ticket with first five words marked
+                        </li>
+                        <li>Top Line: The ticket with all the words of the top row marked</li>
+                        <li>Middle Line: The ticket with all the words of the middle row marked
+                        </li>
+                        <li>Bottom Line: The ticket with the words of the bottom row marked
+                        </li>
+                        <li>Full House: The ticket with all the words marked</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="expansion-panel">
+                  <button class="expansion-panel-header">
+                    <div class="expansion-panel-header-content">
+                      <span class="expansion-panel-title">How to play?
+                      </span>
+                      <div class="expansion-panel-description">
+                        A complete guide.
+                      </div>
+                      <div class="expansion-panel-indicator"></div>
+                    </div>
+                  </button>
+                  <div class="expansion-panel-body">
+                    <div class="expansion-panel-body-content">
+                      <ul>
+                        <li>Game starts with a unique ticket given to each player with words in random sections.
+                        </li>
+                        <li>Every 4 seconds a word is displayed, if the displayed word matches with any word in your ticket, then select it.</li>
+                        <li>If your selected words matches with any winning pattern, then claim that winning pattern by clicking its appropriate  button.
+                        </li>
+                        <li>If you are the fastest to claim that pattern, then you have won that claim.
+                        </li>
+                        
+                        <li>As soon as full house is claimed, the game will be finished and the winners will be announced.</li>
+                        <li>This process of displaying words continues either till all 90 words are displayed or a full house claim is won. </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="expansion-panel">
+                  <button class="expansion-panel-header">
+                    <div class="expansion-panel-header-content">
+                      <span class="expansion-panel-title">What if I have a wrong claim?</span>
+                      
+
+                      <div class="expansion-panel-indicator"></div>
+                    </div>
+                  </button>
+                  <div class="expansion-panel-body">
+                    <div class="expansion-panel-body-content">
+                      If your claimed winning pattern is wrong, it will be called BOOGIE and you would be eliminated from the game.
+                    </div>
+                  </div>
+                </div>
+                <div class="expansion-panel">
+                  <button class="expansion-panel-header">
+                    <div class="expansion-panel-header-content">
+                      <span class="expansion-panel-title">What if I join the game late?</span>
+                      
+                      <div class="expansion-panel-indicator"></div>
+                    </div>
+                  </button>
+                  <div class="expansion-panel-body">
+                    <div class="expansion-panel-body-content">
+                      The last 12 words that were called are shown at the top of the screen which you can refer to.
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+          <!-- 			<div class="content-wrap">
+						<div class="content content--layout content--layout-4">
+							<img class="content__img" src="img/2.jpg" alt="Some image" />
+							<h3 class="content__title">east</h3>
+							<p class="content__author">Walter Mastricht</p>
+							<p class="content__desc">The outer bounds of the world, from within.</p>
+							<a href="#" class="content__link">Discover</a>
+						</div>
+						
+					</div> -->
+
+          <!-- Related demos -->
+          <section class="content content--related">
+            <p class="content__info">
+              If you enjoyed this game you might also like us at: <a href="https://instagram.com/asha__therayofhope?igshid=10ifme1tbispb" target="_blank"><i class="fa fa-instagram" style="position: relative;
+                top: 5px;" aria-hidden="true"></i></a>
+            </p>
+
+          
+            
+            <p class="content__info" style="margin-bottom: 10px;">
+              Copyright © 2020 BingoWords.com. All Rights Reserved.
+            </p>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <script src="js/anime.min.js"></script>
+    <script src="js/scrollMonitor.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/accordian.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+    <script src="js/firebase-app.js"></script>
+    <script src="js/firebase-auth.js"></script>
+    <script src="js/firbase_login_script.js"></script>
+
+  </body>
+</html>
